@@ -51,6 +51,9 @@ with open('province.json', 'r') as f:
 with open('city.json', 'r') as f:
     city_dict = json.load(f)
 
+with open('district.json', 'r') as f:
+    district_dict = json.load(f)
+
 class Report(object):
     def __init__(self, username, password, config):
         self.username = username
@@ -106,6 +109,8 @@ class Report(object):
             'gps_province': '',
             'now_city': self.config['now_city'],
             'gps_city': '',
+            'now_country': self.config['now_country'],
+            'gps_country': '',
             'now_detail': '',
             'is_inschool': self.config['is_inschool'],
             'body_condition': 1,
@@ -116,6 +121,7 @@ class Report(object):
             'last_touch_sars': 0,
             'last_touch_sars_date': '',
             'last_touch_sars_detail': '',
+            'is_danger': 0,
             'other_detail': ''
         }
         headers = {
@@ -137,6 +143,7 @@ if __name__ == '__main__':
         'now_address': address_dict[config['当前所在地']],
         'now_province': province_dict[config['省']],
         'now_city': city_dict[config['省']][config['市']],
+        'now_country': district_dict[config['省']][config['市']].get(config['区'], ''),
         'is_inschool': inschool_dict[config['校区']],
         'now_status': status_dict[config['当前状态']]
     }
