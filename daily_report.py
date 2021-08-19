@@ -5,6 +5,7 @@ import urllib3
 import argparse
 import logging
 import sys
+import muggle_ocr
 
 root = logging.getLogger()
 root.setLevel(logging.INFO)
@@ -58,6 +59,7 @@ class Report(object):
     def __init__(self, args, config):
         self.args = args
         self.config = config
+        self.sdk = muggle_ocr.SDK(model_type=muggle_ocr.ModelType.OCR)
 
         self.login()
         self.send_report()
@@ -69,12 +71,25 @@ class Report(object):
         response = self.session.get(url)
         assert response.status_code == 200
         cookie = response.cookies
+        CAS_LT_catcher = r'name="CAS_LT" value="LT-[A-Za-z0-9]+"'
+        CAS_LT = re.findall(CAS_LT_catcher, response.text)
+        assert(len(CAS_LT) > 0)
+        CAS_LT = CAS_LT[0].split('=')[-1].strip('"')
+
+        url = 'https://passport.ustc.edu.cn/validatecode.jsp?type=login'
+        headers = {
+            'Cookie': f"lang=zh; JSESSIONID={cookie['JSESSIONID']}"
+        }
+        response = self.session.get(url, headers=headers)
+        assert response.status_code == 200
 
         data = {
             'model': 'uplogin.jsp',
+            'CAS_LT': CAS_LT,
+            'LT': self.sdk.predict(image_bytes=response.content),
             'service': 'https://weixine.ustc.edu.cn/2020/caslogin',
             'warn': '',
-            'showCode': '',
+            'showCode': 1,
             'username': self.args.username,
             'password': self.args.password,
             'button': ''
