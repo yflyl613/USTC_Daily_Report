@@ -22,4 +22,7 @@ jobs:
         env:
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
-        run: python daily_report.py --username "$username" --password "$password"
+          contact_name: ${{ secrets.contact_name }}
+          contact_relation: ${{ secrets.contact_relation }}$
+          contact_phone: ${{ secrets.contact_phone }}$
+        run: python daily_report.py --username "$username" --password "$password" --contact_name "$contact_name" --contact_relation "$contact_relation" --contact_phone "$contact_phone"

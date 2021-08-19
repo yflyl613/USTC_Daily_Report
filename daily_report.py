@@ -55,9 +55,8 @@ with open('district.json', 'r') as f:
     district_dict = json.load(f)
 
 class Report(object):
-    def __init__(self, username, password, config):
-        self.username = username
-        self.password = password
+    def __init__(self, args, config):
+        self.args = args
         self.config = config
 
         self.login()
@@ -76,8 +75,8 @@ class Report(object):
             'service': 'https://weixine.ustc.edu.cn/2020/caslogin',
             'warn': '',
             'showCode': '',
-            'username': self.username,
-            'password': self.password,
+            'username': self.args.username,
+            'password': self.args.password,
             'button': ''
         }
         headers = {
@@ -123,6 +122,9 @@ class Report(object):
             'last_touch_sars_detail': '',
             'is_danger': 0,
             'is_goto_danger': 0,
+            'jinji_lxr': self.args.contact_name,
+            'jinji_guanxi': self.args.contact_relation,
+            'jiji_mobile': self.args.contact_phone,
             'other_detail': ''
         }
         headers = {
@@ -136,6 +138,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--username", type=str)
     parser.add_argument("--password", type=str)
+    parser.add_argument("--contact_name", type=str)
+    parser.add_argument("--contact_phone", type=str)
+    parser.add_argument("--contact_relation", type=str)
     args = parser.parse_args()
 
     with open('config.json', 'r') as f:
@@ -148,5 +153,5 @@ if __name__ == '__main__':
         'is_inschool': inschool_dict[config['校区']],
         'now_status': status_dict[config['当前状态']]
     }
-    Report(args.username, args.password, processed_config)
+    Report(args, processed_config)
 
