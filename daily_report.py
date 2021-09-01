@@ -100,7 +100,13 @@ class Report(object):
         url = 'https://passport.ustc.edu.cn/login'
         response = self.session.post(url, data=data, headers=headers, verify=False)
         assert response.status_code == 200
+        self.cookie = response.cookies
 
+        url = 'https://weixine.ustc.edu.cn/2020/home'
+        headers = {
+            'Cookie':  f"XSRF-TOKEN={self.cookie['XSRF-TOKEN']}; laravel_session={self.cookie['laravel_session']}"
+        }
+        response = self.session.get(url, headers=headers)
         token_catcher = r'name="_token" value="[A-Za-z0-9]+"'
         _token = re.findall(token_catcher, response.text)
         assert(len(_token) > 0)
@@ -109,11 +115,6 @@ class Report(object):
         logging.info('Login successful')
 
     def send_report(self):
-        url = 'https://weixine.ustc.edu.cn/2020/login'
-        response = self.session.get(url)
-        assert response.status_code == 200
-        cookie = response.cookies
-
         url = 'https://weixine.ustc.edu.cn/2020/daliy_report'
         data = {
             '_token': self._token,
@@ -143,7 +144,7 @@ class Report(object):
             'other_detail': ''
         }
         headers = {
-            'Cookie': f"XSRF-TOKEN={cookie['XSRF-TOKEN']}; laravel_session={cookie['laravel_session']}"
+            'Cookie': f"XSRF-TOKEN={self.cookie['XSRF-TOKEN']}; laravel_session={self.cookie['laravel_session']}"
         }
         response = self.session.post(url, data, headers=headers, verify=False)
         assert response.status_code == 200
