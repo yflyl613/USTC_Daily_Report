@@ -18,6 +18,7 @@ jobs:
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
+          retry_wait_seconds: 120
           command: |
             pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
             python -m pip install --upgrade pip
@@ -33,5 +34,6 @@ jobs:
           contact_phone: ${{ secrets.contact_phone }}
         with:
           timeout_minutes: 1
+          retry_wait_seconds: 120
           command:
             python daily_report.py --username "$username" --password "$password" --contact_name "$contact_name" --contact_relation "$contact_relation" --contact_phone "$contact_phone"
