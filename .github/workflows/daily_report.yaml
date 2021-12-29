@@ -21,7 +21,7 @@ jobs:
           retry_wait_seconds: 180
           max_attempts: 5
           command: |
-            pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/
+            pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
             python -m pip install --upgrade pip
             pip install requests
             pip install muggle-ocr --user
