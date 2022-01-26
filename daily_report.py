@@ -56,6 +56,7 @@ with open('city.json', 'r') as f:
 with open('district.json', 'r') as f:
     district_dict = json.load(f)
 
+
 class Report(object):
     def __init__(self, args, config):
         self.args = args
@@ -105,7 +106,7 @@ class Report(object):
 
         url = 'https://weixine.ustc.edu.cn/2020/home'
         headers = {
-            'Cookie':  f"XSRF-TOKEN={self.cookie['XSRF-TOKEN']}; laravel_session={self.cookie['laravel_session']}"
+            'Cookie': f"XSRF-TOKEN={self.cookie['XSRF-TOKEN']}; laravel_session={self.cookie['laravel_session']}"
         }
         response = self.session.get(url, headers=headers)
         token_catcher = r'name="_token" value="[A-Za-z0-9]+"'
@@ -151,6 +152,7 @@ class Report(object):
         assert response.status_code == 200
         logging.info('The daily report has been sent')
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--username", type=str)
@@ -171,4 +173,3 @@ if __name__ == '__main__':
         'now_status': status_dict[config['当前状态']]
     }
     Report(args, processed_config)
-
