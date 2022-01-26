@@ -168,7 +168,8 @@ if __name__ == '__main__':
         'now_address': address_dict[config['当前所在地']],
         'now_province': province_dict[config['省']],
         'now_city': city_dict[config['省']][config['市']],
-        'now_country': district_dict[config['省']][config['市']].get(config['区'], ''),
+        'now_country': district_dict[config['省']][config['市']].get(
+            config['区'], city_dict[config['省']][config['市']] + 1),
         'is_inschool': inschool_dict[config['校区']],
         'now_status': status_dict[config['当前状态']]
     }
