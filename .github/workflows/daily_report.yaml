@@ -21,10 +21,10 @@ jobs:
           retry_wait_seconds: 180
           max_attempts: 5
           command: |
-            pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
             python -m pip install --upgrade pip
             pip install requests
-            pip install muggle-ocr --user
+            pip install tensorflow>=1.14
+            pip install muggle-ocr --user -i https://mirrors.aliyun.com/pypi/simple/
       - name: Send daily report
         uses: nick-invision/retry@v2
         env:
