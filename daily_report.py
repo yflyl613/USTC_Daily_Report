@@ -120,16 +120,17 @@ class Report(object):
         url = 'https://weixine.ustc.edu.cn/2020/daliy_report'
         data = {
             '_token': self._token,
-            'now_address': self.config['now_address'],
-            'gps_now_address': '',
-            'now_province': self.config['now_province'],
-            'gps_province': '',
-            'now_city': self.config['now_city'],
-            'gps_city': '',
-            'now_country': self.config['now_country'],
-            'gps_country': '',
-            'now_detail': '',
-            'is_inschool': self.config['is_inschool'],
+            'juzhudi': self.config['is_inschool'],
+            # 'now_address': self.config['now_address'],
+            # 'gps_now_address': '',
+            # 'now_province': self.config['now_province'],
+            # 'gps_province': '',
+            # 'now_city': self.config['now_city'],
+            # 'gps_city': '',
+            # 'now_country': self.config['now_country'],
+            # 'gps_country': '',
+            # 'now_detail': '',
+            # 'is_inschool': self.config['is_inschool'],
             'body_condition': 1,
             'body_condition_detail': '',
             'now_status': self.config['now_status'],
@@ -170,7 +171,8 @@ if __name__ == '__main__':
         'now_city': city_dict[config['省']][config['市']],
         'now_country': district_dict[config['省']][config['市']].get(
             config['区'], city_dict[config['省']][config['市']] + 1),
-        'is_inschool': inschool_dict[config['校区']],
+        # 'is_inschool': inschool_dict[config['校区']],
+        'is_inschool': config['校区'],
         'now_status': status_dict[config['当前状态']]
     }
     Report(args, processed_config)
