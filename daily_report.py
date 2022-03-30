@@ -121,6 +121,8 @@ class Report(object):
         data = {
             '_token': self._token,
             'juzhudi': self.config['is_inschool'],
+            'dorm_building': self.config['dorm_building'],
+            'dorm': self.config['dorm'],
             # 'now_address': self.config['now_address'],
             # 'gps_now_address': '',
             # 'now_province': self.config['now_province'],
@@ -173,6 +175,8 @@ if __name__ == '__main__':
             config['区'], city_dict[config['省']][config['市']] + 1),
         # 'is_inschool': inschool_dict[config['校区']],
         'is_inschool': config['校区'],
-        'now_status': status_dict[config['当前状态']]
+        'now_status': status_dict[config['当前状态']],
+        'dorm_building': config['宿舍楼'],
+        'dorm': config['宿舍号']
     }
     Report(args, processed_config)
