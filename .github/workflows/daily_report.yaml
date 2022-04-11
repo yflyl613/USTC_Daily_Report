@@ -24,6 +24,7 @@ jobs:
             python -m pip install --upgrade pip
             pip install requests
             pip install tensorflow>=1.14
+            pip install opencv-python
             pip install muggle-ocr --user -i https://mirrors.aliyun.com/pypi/simple/
       - name: Send daily report
         uses: nick-invision/retry@v2
